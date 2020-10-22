@@ -45,7 +45,7 @@ class RegisterInput{
 export class UserResolver {
   @Query(() => [User])
    async users(){
-      const user = await User.find({relations:['reviews']});
+      const user = await User.find();
       return user;
    }
 
