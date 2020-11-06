@@ -1,5 +1,5 @@
 import React from 'react';
-import {ApolloLink, ApolloClient, InMemoryCache,createHttpLink,ApolloProvider } from '@apollo/client';
+import {ApolloLink, ApolloClient, InMemoryCache,HttpLink,ApolloProvider } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import { onError } from "@apollo/client/link/error";
 import{BrowserRouter, Route,Switch,} from 'react-router-dom';
@@ -7,21 +7,25 @@ import './App.css';
 import Drawer from './components/drawer'
 import Homepage from './components/homepage'
 import Footer from './components/footer';
+import SignUp from './components/signup';
+import {useStore} from './context/token';
+
 
 function App() {
 
-  const httpLink = createHttpLink({
+  const httpLink = new HttpLink({
     uri: 'http://localhost:4000/api',
     credentials:'include'
   });
   
-  const token=''
+  const {state}=useStore();
+
+  const token=state.token
 
   const authLink = setContext((_, { headers }) => {
     
    
-    console.log(token)
-     
+  
          
        return {
          headers: {
@@ -44,7 +48,7 @@ function App() {
   });
   
 
-  const link = ApolloLink.from([authLink,httpLink,errorLink]); 
+  const link = ApolloLink.from([authLink,errorLink,httpLink]); 
 
 
   const client = new ApolloClient({
@@ -64,9 +68,13 @@ function App() {
     <ApolloProvider client={client}>
       <BrowserRouter>
           <Drawer/>
+          <div style={{minHeight: "100vh"}}>
+
             <Switch>
-                <Homepage/>
+                <Route path="/" exact component={Homepage}/>
+                <Route path="/signup" component={SignUp}/>
             </Switch>
+            </div>
             <Footer/>
       </BrowserRouter>
     </ApolloProvider>

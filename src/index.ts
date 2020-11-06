@@ -39,6 +39,11 @@ const main = async () => {
         credentials: true
       })
     );
+
+    const corsOptions={
+      origin: "http://localhost:3000",
+      credentials: true
+    }
     
     app.post("/refresh", async (req, res) => {
       const token = req.cookies.dev;
@@ -74,7 +79,7 @@ const main = async () => {
   
 
 
-    apolloServer.applyMiddleware({ app, path:'/api'});
+    apolloServer.applyMiddleware({ app,cors: corsOptions, path:'/api'});
   
     app.listen(process.env.PORT, () => {
       console.log("App started");

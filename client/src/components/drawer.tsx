@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     menuButton: {
       marginRight: theme.spacing(2),
-      color:"#fff",
+      color:"#69022f",
     
       padding:"20px",
       
