@@ -8,7 +8,7 @@ query tourByID($tourId:Float!){
         reviews{
             rating
             description
-            userId{
+            user{
                 name
             }
         }

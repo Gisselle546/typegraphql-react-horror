@@ -80,7 +80,8 @@ export type Review = {
   id: Scalars['Int'];
   description: Scalars['String'];
   rating: Scalars['Float'];
-  userId: User;
+  userId: Scalars['Float'];
+  user: User;
   tourId: Tour;
 };
 
@@ -201,7 +202,7 @@ export type TourByIdQuery = (
     & { reviews: Array<(
       { __typename?: 'Review' }
       & Pick<Review, 'rating' | 'description'>
-      & { userId: (
+      & { user: (
         { __typename?: 'User' }
         & Pick<User, 'name'>
       ) }
@@ -299,7 +300,7 @@ export const TourByIdDocument = gql`
     reviews {
       rating
       description
-      userId {
+      user {
         name
       }
     }

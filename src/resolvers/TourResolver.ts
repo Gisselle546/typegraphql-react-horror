@@ -76,7 +76,7 @@ async tourByID(
   @Arg("tourId") tourId: number,
   ): Promise<Tour> {
     const tour= await Tour.findOne(tourId,{
-      relations:['reviews'],
+      relations:['reviews','reviews.user'],
       
     
     

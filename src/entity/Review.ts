@@ -19,9 +19,11 @@ export class Review extends BaseEntity {
     @Column({default:0})
     rating!:number;
 
-    @Field(()=>User)
+    @Field()
     @Column('int',{nullable:true})
     userId!: number;
+    
+    @Field(()=>User)
     @ManyToOne(type=>User,user=>user.reviews)
     user?:User
 
