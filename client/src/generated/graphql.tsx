@@ -171,15 +171,60 @@ export type LoginInput = {
   password: Scalars['String'];
 };
 
-export type UsersQueryVariables = Exact<{ [key: string]: never; }>;
+export type ToursQueryVariables = Exact<{
+  data: Scalars['String'];
+}>;
 
 
-export type UsersQuery = (
+export type ToursQuery = (
   { __typename?: 'Query' }
-  & { users: Array<(
-    { __typename?: 'User' }
-    & Pick<User, 'name'>
+  & { tours: Array<(
+    { __typename?: 'Tour' }
+    & Pick<Tour, 'id' | 'name' | 'image' | 'location' | 'description' | 'price'>
+    & { reviews: Array<(
+      { __typename?: 'Review' }
+      & Pick<Review, 'rating'>
+    )> }
   )> }
+);
+
+export type TourByIdQueryVariables = Exact<{
+  tourId: Scalars['Float'];
+}>;
+
+
+export type TourByIdQuery = (
+  { __typename?: 'Query' }
+  & { tourByID?: Maybe<(
+    { __typename?: 'Tour' }
+    & Pick<Tour, 'id' | 'name' | 'image' | 'location' | 'price'>
+    & { reviews: Array<(
+      { __typename?: 'Review' }
+      & Pick<Review, 'rating' | 'description'>
+      & { userId: (
+        { __typename?: 'User' }
+        & Pick<User, 'name'>
+      ) }
+    )> }
+  )> }
+);
+
+export type LoginMutationVariables = Exact<{
+  email: Scalars['String'];
+  password: Scalars['String'];
+}>;
+
+
+export type LoginMutation = (
+  { __typename?: 'Mutation' }
+  & { login: (
+    { __typename?: 'getToken' }
+    & Pick<GetToken, 'accessToken'>
+    & { user: (
+      { __typename?: 'User' }
+      & Pick<User, 'id' | 'name'>
+    ) }
+  ) }
 );
 
 export type RegisterMutationVariables = Exact<{
@@ -202,38 +247,128 @@ export type RegisterMutation = (
 );
 
 
-export const UsersDocument = gql`
-    query users {
-  users {
+export const ToursDocument = gql`
+    query tours($data: String!) {
+  tours(data: $data) {
+    id
     name
+    image
+    location
+    description
+    price
+    reviews {
+      rating
+    }
   }
 }
     `;
 
 /**
- * __useUsersQuery__
+ * __useToursQuery__
  *
- * To run a query within a React component, call `useUsersQuery` and pass it any options that fit your needs.
- * When your component renders, `useUsersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useToursQuery` and pass it any options that fit your needs.
+ * When your component renders, `useToursQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useUsersQuery({
+ * const { data, loading, error } = useToursQuery({
  *   variables: {
+ *      data: // value for 'data'
  *   },
  * });
  */
-export function useUsersQuery(baseOptions?: Apollo.QueryHookOptions<UsersQuery, UsersQueryVariables>) {
-        return Apollo.useQuery<UsersQuery, UsersQueryVariables>(UsersDocument, baseOptions);
+export function useToursQuery(baseOptions?: Apollo.QueryHookOptions<ToursQuery, ToursQueryVariables>) {
+        return Apollo.useQuery<ToursQuery, ToursQueryVariables>(ToursDocument, baseOptions);
       }
-export function useUsersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UsersQuery, UsersQueryVariables>) {
-          return Apollo.useLazyQuery<UsersQuery, UsersQueryVariables>(UsersDocument, baseOptions);
+export function useToursLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ToursQuery, ToursQueryVariables>) {
+          return Apollo.useLazyQuery<ToursQuery, ToursQueryVariables>(ToursDocument, baseOptions);
         }
-export type UsersQueryHookResult = ReturnType<typeof useUsersQuery>;
-export type UsersLazyQueryHookResult = ReturnType<typeof useUsersLazyQuery>;
-export type UsersQueryResult = Apollo.QueryResult<UsersQuery, UsersQueryVariables>;
+export type ToursQueryHookResult = ReturnType<typeof useToursQuery>;
+export type ToursLazyQueryHookResult = ReturnType<typeof useToursLazyQuery>;
+export type ToursQueryResult = Apollo.QueryResult<ToursQuery, ToursQueryVariables>;
+export const TourByIdDocument = gql`
+    query tourByID($tourId: Float!) {
+  tourByID(tourId: $tourId) {
+    id
+    name
+    image
+    location
+    price
+    reviews {
+      rating
+      description
+      userId {
+        name
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useTourByIdQuery__
+ *
+ * To run a query within a React component, call `useTourByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useTourByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useTourByIdQuery({
+ *   variables: {
+ *      tourId: // value for 'tourId'
+ *   },
+ * });
+ */
+export function useTourByIdQuery(baseOptions?: Apollo.QueryHookOptions<TourByIdQuery, TourByIdQueryVariables>) {
+        return Apollo.useQuery<TourByIdQuery, TourByIdQueryVariables>(TourByIdDocument, baseOptions);
+      }
+export function useTourByIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<TourByIdQuery, TourByIdQueryVariables>) {
+          return Apollo.useLazyQuery<TourByIdQuery, TourByIdQueryVariables>(TourByIdDocument, baseOptions);
+        }
+export type TourByIdQueryHookResult = ReturnType<typeof useTourByIdQuery>;
+export type TourByIdLazyQueryHookResult = ReturnType<typeof useTourByIdLazyQuery>;
+export type TourByIdQueryResult = Apollo.QueryResult<TourByIdQuery, TourByIdQueryVariables>;
+export const LoginDocument = gql`
+    mutation login($email: String!, $password: String!) {
+  login(data: {email: $email, password: $password}) {
+    accessToken
+    user {
+      id
+      name
+    }
+  }
+}
+    `;
+export type LoginMutationFn = Apollo.MutationFunction<LoginMutation, LoginMutationVariables>;
+
+/**
+ * __useLoginMutation__
+ *
+ * To run a mutation, you first call `useLoginMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useLoginMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [loginMutation, { data, loading, error }] = useLoginMutation({
+ *   variables: {
+ *      email: // value for 'email'
+ *      password: // value for 'password'
+ *   },
+ * });
+ */
+export function useLoginMutation(baseOptions?: Apollo.MutationHookOptions<LoginMutation, LoginMutationVariables>) {
+        return Apollo.useMutation<LoginMutation, LoginMutationVariables>(LoginDocument, baseOptions);
+      }
+export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
+export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
+export type LoginMutationOptions = Apollo.BaseMutationOptions<LoginMutation, LoginMutationVariables>;
 export const RegisterDocument = gql`
     mutation register($name: String!, $email: String!, $password: String!) {
   register(data: {name: $name, email: $email, password: $password}) {

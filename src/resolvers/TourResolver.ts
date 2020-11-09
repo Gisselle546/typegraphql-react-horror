@@ -7,7 +7,7 @@ import { Tour} from './../entity/Tour';
 import { Resolver, Query, InputType,Field, Mutation,Arg, UseMiddleware } from "type-graphql";
 import { Review } from '../entity/Review';
 import {MoreThan, MoreThanOrEqual} from "typeorm";
-
+import {User} from '../entity/User';
 @InputType()
 class CreateInput{
     
@@ -75,7 +75,12 @@ async createTours(
 async tourByID(
   @Arg("tourId") tourId: number,
   ): Promise<Tour> {
-    const tour= await Tour.findOne(tourId,{relations:['reviews']});
+    const tour= await Tour.findOne(tourId,{
+      relations:['reviews'],
+      
+    
+    
+    });
     if (tour === undefined) {
       throw new Error;
     }

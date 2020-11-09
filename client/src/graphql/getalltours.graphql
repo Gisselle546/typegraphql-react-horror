@@ -1,6 +1,13 @@
-query users{
-    users{
+query tours($data:String!){
+    tours(data:$data){
+        id
         name
-
+        image
+        location
+        description
+        price
+        reviews{
+            rating
+        }
     }
 }

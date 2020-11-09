@@ -94,7 +94,7 @@ async getReviewByTour(
 
 let review = await Review.find({
   
-  relations:['tour'],
+  relations:['user'],
   where:{
     tourId:tourId,
     

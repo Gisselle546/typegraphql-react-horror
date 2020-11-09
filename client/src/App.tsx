@@ -8,7 +8,9 @@ import Drawer from './components/drawer'
 import Homepage from './components/homepage'
 import Footer from './components/footer';
 import SignUp from './components/signup';
+import TourList from './components/tourslist';
 import {useStore} from './context/token';
+import TourShow from './components/tourShow';
 
 
 function App() {
@@ -73,6 +75,9 @@ function App() {
             <Switch>
                 <Route path="/" exact component={Homepage}/>
                 <Route path="/signup" component={SignUp}/>
+                <Route path="/tours/:id" component={TourShow}/>
+                <Route path="/tours"  component={TourList}/>
+               
             </Switch>
             </div>
             <Footer/>

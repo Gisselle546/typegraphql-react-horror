@@ -1,0 +1,16 @@
+query tourByID($tourId:Float!){
+    tourByID(tourId:$tourId){
+        id
+        name
+        image
+        location
+        price
+        reviews{
+            rating
+            description
+            userId{
+                name
+            }
+        }
+    }
+}

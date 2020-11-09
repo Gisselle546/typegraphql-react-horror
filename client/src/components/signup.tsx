@@ -5,7 +5,8 @@ import {IfcSignupInterface} from '../types/signup';
 import {useRegisterMutation} from '../generated/graphql';
 import {useStore} from '../context/token';
 
-const useStyles = makeStyles(theme=>({
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
    
     root:{
         display:"flex",
