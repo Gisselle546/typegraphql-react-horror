@@ -1,11 +1,12 @@
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { Button, CircularProgress,Grid, Typography } from '@material-ui/core';
-import React from 'react';
+import React,{lazy,Suspense, useState} from 'react';
 import { useTourByIdQuery } from '../generated/graphql';
 import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import {useStore} from '../context/cart';
-
+const AddCartModule = lazy(()=>import('./addCartModule'))
+const DatePicker = lazy(()=>import('./datepicker'))
 
 interface TodoItemProps {
     match:any,
@@ -51,6 +52,8 @@ interface TodoItemProps {
 const TourShow:React.FC<TodoItemProps>=({match,history})=>{
     const classes = useStyles();
     const {addCart}=useStore();
+     const[cart,showcartModal]= useState(false);
+     const[datecom,showdateModal] = useState(false);
     const { data, loading, error } = useTourByIdQuery({
         variables: {
               tourId: parseFloat(match.params.id)
@@ -83,17 +86,17 @@ const tourImages = data!.tourByID!.image.map((images:any)=>{
             <img src={images} />
       </div>
     )
-
-      
-
-
-   
   
 })
 
       
+const confirmhandler=()=>{
+  addCart(data)!
+  showcartModal(true);
+ 
+}
 
-      
+      const renderLoader=()=><div>loader</div>;
 
     return(
 
@@ -115,8 +118,29 @@ const tourImages = data!.tourByID!.image.map((images:any)=>{
           </Grid>
           <Grid item xs={12} md={3}>
           <div className={classes.detailTour}>
-          <Button className={classes.button} variant="contained" size= "medium">Pick A Date</Button>
-          <Button className={classes.button} onClick={()=>addCart(data!)} style={{marginTop:"30px"}} variant="contained" size= "medium">Add Cart</Button>
+          
+          
+          {!datecom && <Button onClick={()=>showdateModal(true)}className={classes.button} variant="contained" size= "medium">Pick A Date</Button>}
+
+          {
+            datecom&&
+            <Suspense fallback={renderLoader()}>
+              <DatePicker/>
+            </Suspense>
+          }
+          
+         
+         
+         
+         
+          {!cart&&<Button className={classes.button} onClick={confirmhandler} style={{marginTop:"30px"}} variant="contained" size= "medium">Add Cart</Button>}
+          
+          {
+            cart &&
+            <Suspense fallback={renderLoader()}>
+              <AddCartModule data={data} clicked={()=>showcartModal(false)}/>
+            </Suspense>
+          }
 
           </div>
 

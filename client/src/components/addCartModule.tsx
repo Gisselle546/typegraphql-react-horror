@@ -4,7 +4,7 @@ import React, {useState } from 'react';
 import {useStore} from '../context/cart';
 import CustomDialog from './dialog';
 
-
+ 
 
 
 
@@ -12,7 +12,7 @@ interface Props{
    
     data:any;
     clicked:()=>void;
-    date:any;
+    
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -27,8 +27,10 @@ const useStyles = makeStyles((theme: Theme) =>
     },
 
     cart:{
-        textAlign:"center",
-        padding:"1rem"
+       display:"flex",
+       flexDirection:"column",
+       alignSelf:"center",
+       marginTop:"1rem"
     },
     quantity:{
        fontSize:"1.4rem",
@@ -44,7 +46,7 @@ const AddCartModule:React.FC<Props>=(props)=>{
     
     let value;
    
-    const {state} = useStore();
+    const {state,increment,decrement,} = useStore();
         console.log(props.data.tourByID.id)
 
 
@@ -71,14 +73,14 @@ const AddCartModule:React.FC<Props>=(props)=>{
         <div className={classes.cart}>
             
             
-            <Typography>Number of Adults</Typography>
+            <Typography variant="h6" component="h4">Number of Adults</Typography>
                     
             <div style={{display:"flex", justifyContent:"center"}}>
-            <Button className={classes.button} variant="contained" color="primary">-</Button>
+            <Button className={classes.button} onClick={()=>decrement(props.data)} variant="contained" color="primary">-</Button>
             
             {<Typography className={classes.quantity}>{value}</Typography>}
 
-            <Button className={classes.button} variant="contained" color="primary">+</Button>
+            <Button className={classes.button} onClick={()=>increment(props.data)} variant="contained" color="primary">+</Button>
             </div>
             <Button onClick={confirmhandler}>Confirm</Button>
            

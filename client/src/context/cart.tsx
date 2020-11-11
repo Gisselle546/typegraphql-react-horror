@@ -3,7 +3,8 @@ import {Itour} from '../types/tour'
 
 enum ActionType {
     ADDCART = "ADDCART",
-    REMOVECART = "REMOVECART"
+    INCREMENT='INCREMENT',
+    DECREMENT='DECREMENT'
   }
 
   const initialState={
@@ -27,13 +28,14 @@ interface State{
 const reducer: React.Reducer<State, Action> =  (state: State, action: Action) => {
 
     let updatedCart;
+    let index;
 
     switch(action.type){
         case ActionType.ADDCART:
            
             updatedCart = [...state.cart];
             
-            const index=[...state.cart].findIndex((item:Itour)=>item.id === action.payload!.tourByID.id)
+            index=[...state.cart].findIndex((item:Itour)=>item.id === action.payload!.tourByID.id)
             
             if(index<0){
                 updatedCart.push({...action.payload!.tourByID,quantity:1, total:action.payload!.tourByID.price})
@@ -56,12 +58,51 @@ const reducer: React.Reducer<State, Action> =  (state: State, action: Action) =>
                 ...state,
                 cart:updatedCart
             };
+
+
+
+        case ActionType.INCREMENT:
+            updatedCart = [...state.cart];
+             index = updatedCart.findIndex(
+               ( item:Itour )=> item.id === action.payload!.tourByID.id
+            );
+  
+            const incrementedItem = {
+                ...updatedCart[index]
+            };
+  
+            incrementedItem.quantity++;
+  
+            updatedCart[index] = incrementedItem;
+  
+  
+            return {...state, cart: updatedCart};
             
+
+
+        case ActionType.DECREMENT:
+            updatedCart = [...state.cart];
+            index= updatedCart.findIndex(
+                ( item:Itour ) => item.id === action.payload!.tourByID.id
+            );
+
+            const decrementedItem = {
+                ...updatedCart[index]
+            };
+
+            decrementedItem.quantity--;
+
+            updatedCart[index] = decrementedItem;
+
+            return {...state, cart: updatedCart};
+
 
               default:
                 throw new Error();
    
-  }
+
+  
+    }
 
 
 }
@@ -69,10 +110,13 @@ const reducer: React.Reducer<State, Action> =  (state: State, action: Action) =>
 const CartContext = createContext<{
     state:State
     addCart:(items:any)=>void
-    
+    increment:(items:any)=>void
+    decrement:(items:any)=>void
 }>({
     state:initialState,
-    addCart:()=>{}
+    addCart:()=>{},
+    increment:()=>{},
+    decrement:()=>{}
    
 });
 
@@ -95,8 +139,24 @@ export const CartProvider = (props: { children: React.ReactNode; } )=>{
         })
       }
 
-    return(
-        <CartContext.Provider value={{state,addCart}}>
+      const increment = (items:any)=>{
+        dispatch({
+            type:ActionType.INCREMENT,
+            payload:items!
+        })
+      }
+    
+      const decrement = (items:any)=>{
+        dispatch({
+            type:ActionType.DECREMENT,
+            payload:items!
+        })
+      }
+    
+      
+    
+      return(
+        <CartContext.Provider value={{state,addCart,increment,decrement}}>
             {props.children}
         </CartContext.Provider>
         );
