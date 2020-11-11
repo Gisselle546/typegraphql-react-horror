@@ -3,10 +3,13 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import{AuthProvider} from './context/token'
+import{CartProvider} from './context/cart'
 
 const app=(
   <AuthProvider>
-     <App/>
+    <CartProvider>
+      <App/>
+     </CartProvider>
   </AuthProvider>
     
 );
