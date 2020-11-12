@@ -25,6 +25,7 @@ const DatePicker:React.FC<Props>=(props)=>{
     return (
       <div>
         <Calendar 
+          calendarType="US"
           minDate={new Date(new Date().setDate(new Date().getDate() + 1))}
           onChange={dateHandler}
           value={value}

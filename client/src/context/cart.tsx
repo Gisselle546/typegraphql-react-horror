@@ -4,7 +4,8 @@ import {Itour} from '../types/tour'
 enum ActionType {
     ADDCART = "ADDCART",
     INCREMENT='INCREMENT',
-    DECREMENT='DECREMENT'
+    DECREMENT='DECREMENT',
+    REMOVE='REMOVE'
   }
 
   const initialState={
@@ -97,6 +98,23 @@ const reducer: React.Reducer<State, Action> =  (state: State, action: Action) =>
             return {...state, cart: updatedCart};
 
 
+            case ActionType.REMOVE:
+                updatedCart = [...state.cart];
+                index = updatedCart.findIndex(
+                    item => item.id === action.payload!.tourByID.id
+                );
+        
+                updatedCart.splice(index, 1);
+        
+                return {...state, cart: updatedCart};
+        
+
+
+
+
+
+
+
               default:
                 throw new Error();
    
@@ -112,11 +130,13 @@ const CartContext = createContext<{
     addCart:(items:any)=>void
     increment:(items:any)=>void
     decrement:(items:any)=>void
+    remove:(items:any)=>void
 }>({
     state:initialState,
     addCart:()=>{},
     increment:()=>{},
-    decrement:()=>{}
+    decrement:()=>{},
+    remove:()=>{}
    
 });
 
@@ -153,10 +173,16 @@ export const CartProvider = (props: { children: React.ReactNode; } )=>{
         })
       }
     
+      const remove=(items:any)=>{
+          dispatch({
+              type:ActionType.REMOVE,
+              payload:items!
+          })
+      }
       
     
       return(
-        <CartContext.Provider value={{state,addCart,increment,decrement}}>
+        <CartContext.Provider value={{state,addCart,increment,decrement,remove}}>
             {props.children}
         </CartContext.Provider>
         );
