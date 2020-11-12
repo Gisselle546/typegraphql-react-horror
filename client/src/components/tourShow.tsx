@@ -1,10 +1,11 @@
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { Button, CircularProgress,Grid, Typography } from '@material-ui/core';
-import React,{lazy,Suspense, useState} from 'react';
+import React,{lazy,Suspense, useContext, useState} from 'react';
 import { useTourByIdQuery } from '../generated/graphql';
 import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import {useStore} from '../context/cart';
+import {DateContext} from '../context/date';
 const AddCartModule = lazy(()=>import('./addCartModule'))
 const DatePicker = lazy(()=>import('./datepicker'))
 
@@ -32,7 +33,7 @@ interface TodoItemProps {
     detailTour:{
       display:"flex",
       flexDirection:"column",
-      backgroundColor:"#ededed",
+      backgroundColor:"rgb(247, 247, 247)",
       boxShadow: "rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px",
       flex:"0 1 300px",
       height:"600px",
@@ -52,8 +53,9 @@ interface TodoItemProps {
 const TourShow:React.FC<TodoItemProps>=({match,history})=>{
     const classes = useStyles();
     const {addCart}=useStore();
-     const[cart,showcartModal]= useState(false);
-     const[datecom,showdateModal] = useState(false);
+    const[cart,showcartModal]= useState(false);
+    const {date,setDate} = useContext(DateContext);
+    const[datecom,showdateModal] = useState(false);
     const { data, loading, error } = useTourByIdQuery({
         variables: {
               tourId: parseFloat(match.params.id)
@@ -95,6 +97,7 @@ const confirmhandler=()=>{
   showcartModal(true);
  
 }
+console.log(date)  
 
       const renderLoader=()=><div>loader</div>;
 
@@ -125,7 +128,7 @@ const confirmhandler=()=>{
           {
             datecom&&
             <Suspense fallback={renderLoader()}>
-              <DatePicker/>
+              <DatePicker setter={setDate} seedate={date} clicked={()=>showdateModal(false)}/>
             </Suspense>
           }
           

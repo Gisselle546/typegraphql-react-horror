@@ -76,7 +76,7 @@ const AddCartModule:React.FC<Props>=(props)=>{
             <Typography variant="h6" component="h4">Number of Adults</Typography>
                     
             <div style={{display:"flex", justifyContent:"center"}}>
-            <Button className={classes.button} onClick={()=>decrement(props.data)} variant="contained" color="primary">-</Button>
+            <Button className={classes.button} onClick={()=>(props.data)} variant="contained" color="primary">-</Button>
             
             {<Typography className={classes.quantity}>{value}</Typography>}
 

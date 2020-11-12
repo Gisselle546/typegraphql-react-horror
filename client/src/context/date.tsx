@@ -13,7 +13,7 @@ export const DateContext = createContext<{
 });
 
 
-export const DateContextProvider = (props: { children: React.ReactNode; }) => {
+export const DateProvider = (props: { children: React.ReactNode; }) => {
   const [date, setDate] = useState(new Date());
 
   return (

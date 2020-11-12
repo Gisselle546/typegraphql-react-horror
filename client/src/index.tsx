@@ -4,11 +4,14 @@ import './index.css';
 import App from './App';
 import{AuthProvider} from './context/token'
 import{CartProvider} from './context/cart'
+import {DateProvider} from './context/date';
 
 const app=(
   <AuthProvider>
     <CartProvider>
-      <App/>
+      <DateProvider>
+        <App/>
+      </DateProvider>
      </CartProvider>
   </AuthProvider>
     
