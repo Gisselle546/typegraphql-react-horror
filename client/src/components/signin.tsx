@@ -53,6 +53,11 @@ const useStyles = makeStyles((theme: Theme) =>
       display:"flex",
       marginLeft:"65px"
   },
+
+  helperText:{
+    color:"yellow"
+}
+
   
 }));
 
@@ -66,11 +71,14 @@ const defaultData:IfcSigninInterface={
 
 
 
+interface Props{
+  history:any
+}
 
-const SignIn:React.FC=()=>{
+const SignIn:React.FC<Props>=({history})=>{
     const classes = useStyles();
     const [signin,setSignin]=useState(defaultData);
-    const [login] = useLoginMutation();
+    const [login,{error}] = useLoginMutation();
     const {addToken} = useStore()
 
 
@@ -88,12 +96,16 @@ const SignIn:React.FC=()=>{
       try{
           const token = await signinHandler();
           addToken(token);
+        history.push('/tours')
       }catch(err){
-          console.dir(err)
+          console.dir(err);
+          
       }
     }
 
-
+    function handleError(field:any){
+      return error&& field===""
+    }
 
    async function signinHandler(){
        const{email,password}=signin;
@@ -109,14 +121,14 @@ const SignIn:React.FC=()=>{
            })
            
        }catch(err){
-           console.log(err)
+           console.dir(err)
        }
       const {accessToken} = response!.data!.login
       return {token:accessToken}
       
    }
 
-
+   
 
     return(
       <div className={classes.root}>
@@ -125,12 +137,31 @@ const SignIn:React.FC=()=>{
           
           <div style={{margin:"3rem"}}>
           
-              <TextField  InputProps={{classes:{underline: classes.underline}}} onChange={handleChange} InputLabelProps={{ classes: { root: classes.field,focused: "focused", shrink: "shrink"}}} label="Email" name="email"  />
+              <TextField  InputProps={{classes:{underline: classes.underline}}} 
+              onChange={handleChange} 
+              InputLabelProps={{ classes: { root: classes.field,focused: "focused", shrink: "shrink"}}} label="Email" name="email"  
+              helperText={error&&error.graphQLErrors[0].message} 
+              error={handleError(signin.email)}
+              FormHelperTextProps={{
+                  className: classes.helperText
+                }}
+              />
+              
           
           </div>
           <div style={{margin:"3rem"}}>
           
-              <TextField  InputProps={{classes:{underline: classes.underline}}}  onChange={handleChange} InputLabelProps={{classes: {root: classes.field,focused: "focused",shrink: "shrink"}}} label="Password" type="password" name="password"  />
+              <TextField  InputProps={{classes:{underline: classes.underline}}}  
+              onChange={handleChange} 
+              InputLabelProps={{classes: {root: classes.field,focused: "focused",shrink: "shrink"}}} label="Password" type="password" name="password"  
+              helperText={error&&error.graphQLErrors[0].message} 
+              error={handleError(signin.email)}
+              FormHelperTextProps={{
+                  className: classes.helperText
+                }}
+              />
+              
+             
           
           </div>
 

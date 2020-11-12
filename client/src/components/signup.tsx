@@ -51,6 +51,11 @@ const useStyles = makeStyles((theme: Theme) =>
       display:"flex",
       marginLeft:"65px"
   },
+
+  helperText:{
+      color:"yellow"
+  }
+  
   
 }));
 
@@ -62,12 +67,14 @@ const defaultData:IfcSignupInterface={
 };
 
 
+interface Props{
+    history:any
+}
 
-
-const SignUp:React.FC=()=>{
+const SignUp:React.FC<Props>=({history})=>{
     const classes = useStyles();
     const[signup,setSignup] = useState(defaultData)
-    const [register] = useRegisterMutation();
+    const [register,{error}] = useRegisterMutation();
     const {addToken} = useStore()
   
     function handleChange (event:React.ChangeEvent<HTMLInputElement>) {
@@ -77,6 +84,10 @@ const SignUp:React.FC=()=>{
           [name]:value
         })); 
       }
+      function handleError(field:any){
+        return error&& field===""
+      }
+
 
       const handleSubmit = async(event:any) => {
 
@@ -84,6 +95,7 @@ const SignUp:React.FC=()=>{
         try{
             const token = await signupHandler();
             addToken(token);
+            history.push('/tours')
         }catch(err){
             console.dir(err)
         }
@@ -104,34 +116,63 @@ const SignUp:React.FC=()=>{
                  }
              })
              
-         }catch(err){
-             console.log(err)
+         }catch(error){
+             console.dir(error)
          }
         const {accessToken} = response!.data!.register
         return {token:accessToken}
         
      }
+     
 
 
-
+ 
     return(
         <div className={classes.root}>
            
                 <form onSubmit={handleSubmit} className={classes.form} autoComplete="off">
                     <div  style={{margin:"3rem"}}>
                         
-                        <TextField  InputProps={{classes:{underline: classes.underline}}} onChange={handleChange} InputLabelProps={{ classes: {root: classes.field,focused: "focused",shrink: "shrink"} }} label="Name" name="name"  />
+                        <TextField  
+                        InputProps={{classes:{underline: classes.underline}}} 
+                        onChange={handleChange} 
+                        InputLabelProps={{ classes: {root: classes.field,focused: "focused",shrink: "shrink"} }} label="Name" name="name"  
+                        helperText={error &&error.graphQLErrors[0].message && ' cannot be empty'} 
+                        error={handleError(signup.name)}
+                        FormHelperTextProps={{
+                            className: classes.helperText
+                          }}
+                        />
+                        
                     
                     </div>
                     <div style={{margin:"3rem"}}>
                     
-                        <TextField  InputProps={{classes:{underline: classes.underline}}} onChange={handleChange} InputLabelProps={{ classes: { root: classes.field,focused: "focused", shrink: "shrink"}}} label="Email" name="email"  />
+                        <TextField  
+                        InputProps={{classes:{underline: classes.underline}}} 
+                        onChange={handleChange} 
+                        InputLabelProps={{ classes: { root: classes.field,focused: "focused", shrink: "shrink"}}} label="Email" name="email"  
+                        helperText={error&&error.graphQLErrors[0].extensions &&' Must be an Email and not be empty'} 
+                        error={handleError(signup.email)}
+                        FormHelperTextProps={{
+                            className: classes.helperText
+                          }}
+                        />
+                        
+                       
                     
                     </div>
                     <div style={{margin:"3rem"}}>
                     
-                        <TextField  InputProps={{classes:{underline: classes.underline}}}  onChange={handleChange} InputLabelProps={{classes: {root: classes.field,focused: "focused",shrink: "shrink"}}} label="Password" type="password" name="password"  />
-                    
+                        <TextField  InputProps={{classes:{underline: classes.underline}}}  
+                        onChange={handleChange} 
+                        InputLabelProps={{classes: {root: classes.field,focused: "focused",shrink: "shrink"}}} label="Password" type="password" name="password"  
+                          helperText={error&&error.graphQLErrors[0].extensions &&' Password cannot be blank'} 
+                        error={handleError(signup.password)}
+                        FormHelperTextProps={{
+                            className: classes.helperText
+                          }}
+                        />
                     </div>
 
                     <Button variant="contained" size= "large"  type="submit" className={classes.button}>Signup</Button>
