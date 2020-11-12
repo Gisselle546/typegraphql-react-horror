@@ -2,9 +2,11 @@ query tourByID($tourId:Float!){
     tourByID(tourId:$tourId){
         id
         name
+        description
         image
         location
         price
+       
         reviews{
             rating
             description

@@ -1,6 +1,7 @@
 import React from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { Typography } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 
 
 
@@ -43,8 +44,8 @@ return(
         <div className={classes.section}>
         <Typography className={classes.tours}>Horror Tours</Typography>
         <div className={classes.link}>
-            <Typography className={classes.tours}>Sign Up</Typography>
-            <Typography style={{marginLeft:"30px"}}className={classes.tours}>Sign In</Typography>
+            <Link to={{ pathname: '/signup'}}><Typography className={classes.tours}>Sign Up</Typography></Link>
+            <Link to={{ pathname: '/signin'}}><Typography style={{marginLeft:"30px"}}className={classes.tours}>Sign In</Typography></Link>
             
         </div>
        

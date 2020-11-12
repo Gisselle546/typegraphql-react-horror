@@ -8,6 +8,7 @@ import {useStore} from '../context/cart';
 import {DateContext} from '../context/date';
 const AddCartModule = lazy(()=>import('./addCartModule'))
 const DatePicker = lazy(()=>import('./datepicker'))
+const Included = lazy(()=>import('./included'))
 
 interface TodoItemProps {
     match:any,
@@ -19,6 +20,14 @@ interface TodoItemProps {
   const useStyles = makeStyles((theme: Theme) =>
   createStyles({
    
+    root:{
+      height:"900px",
+      marginTop:"6rem"
+    },
+
+
+
+
     tourinfo:{
         display: 'flex',
         
@@ -27,7 +36,8 @@ interface TodoItemProps {
 
     title:{
       fontFamily:"Roboto",
-      marginLeft:"30px"
+      marginLeft:"30px",
+      color:"#69022f"
     },
 
     detailTour:{
@@ -44,6 +54,27 @@ interface TodoItemProps {
     button:{
       alignSelf:"center",
      
+    },
+    tourShowHeader:{
+      color:"#69022f",
+      fontFamily:"Roboto",
+      margin:"10px 0 0 10px"
+    },
+
+    description:{
+      fontSize:"1.2rem",
+      fontFamily:"oxygen",
+      marginLeft:"10px",
+      flexWrap:"wrap"
+    },
+
+    includedbutton:{
+      border: "none",
+      fontSize:"1.6rem",
+      color:"#000",
+      '&:hover':{
+        backgroundColor:"#fff"
+      }
     }
     
   
@@ -56,6 +87,7 @@ const TourShow:React.FC<TodoItemProps>=({match,history})=>{
     const[cart,showcartModal]= useState(false);
     const {date,setDate} = useContext(DateContext);
     const[datecom,showdateModal] = useState(false);
+    const [included,showIncluded]=useState(false);
     const { data, loading, error } = useTourByIdQuery({
         variables: {
               tourId: parseFloat(match.params.id)
@@ -114,7 +146,7 @@ console.log(date)
                     <Typography className={classes.title}component="h2" variant="h4" >{data!.tourByID!.name}</Typography>  
                     
                     <Typography style={{marginLeft:"30px",fontSize:"15px"}}variant="subtitle1" color="textSecondary">{data!.tourByID!.location}</Typography>
-                    <Typography style={{marginTop:"30px"}}className={classes.title}component="h5" variant="h5" >${data!.tourByID!.price}</Typography>
+                    <Typography style={{marginTop:"30px",color:"#000", fontSize:"1.4rem"}}className={classes.title}component="h5" variant="h5" >${data!.tourByID!.price}</Typography>
                 </div>
             </div> 
             
@@ -151,6 +183,42 @@ console.log(date)
 
 
         </Grid>
+        <div className={classes.root}>
+        <Grid container spacing={2}  >
+          <Grid item xs={12} >
+          <Typography className={classes.tourShowHeader}component="h2" variant="h2">Overview</Typography>
+            <p className={classes.description}>{data!.tourByID!.description}</p>
+
+          </Grid>
+          <Grid item xs={12}>
+            <div style={{display:"flex"}}>
+            <Typography className={classes.tourShowHeader}component="h3" variant="h3">What's included</Typography>
+            
+           { !included&& <Button  onClick={()=>showIncluded(true)}className={classes.includedbutton}variant="outlined"  size= "small">+</Button>}
+            
+            {included&&
+              <Suspense fallback={renderLoader()}>
+              <Included clicked={()=>showIncluded(false)}/>
+            </Suspense>
+            
+           }
+            
+            </div>
+          </Grid>
+      
+    
+      </Grid>
+      <Grid container spacing={2} >
+          <Grid item xs={12} >
+
+         <div style={{marginTop:"90px"}}>
+         <Typography className={classes.tourShowHeader}component="h3" variant="h3">Reviews</Typography>
+          </div> 
+         
+           </Grid>
+      </Grid>
+
+      </div>
       </div>
     )
 

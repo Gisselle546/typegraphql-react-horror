@@ -214,7 +214,7 @@ export type TourByIdQuery = (
   { __typename?: 'Query' }
   & { tourByID?: Maybe<(
     { __typename?: 'Tour' }
-    & Pick<Tour, 'id' | 'name' | 'image' | 'location' | 'price'>
+    & Pick<Tour, 'id' | 'name' | 'description' | 'image' | 'location' | 'price'>
     & { reviews: Array<(
       { __typename?: 'Review' }
       & Pick<Review, 'rating' | 'description'>
@@ -347,6 +347,7 @@ export const TourByIdDocument = gql`
   tourByID(tourId: $tourId) {
     id
     name
+    description
     image
     location
     price

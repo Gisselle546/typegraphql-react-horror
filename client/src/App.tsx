@@ -12,6 +12,7 @@ import TourList from './components/tourslist';
 import {useStore} from './context/token';
 import TourShow from './components/tourShow';
 import Cart from './components/cart';
+import SignIn from './components/signin';
 
 
 function App() {
@@ -76,6 +77,7 @@ function App() {
             <Switch>
                 <Route path="/" exact component={Homepage}/>
                 <Route path="/signup" component={SignUp}/>
+                <Route path="/signin" component={SignIn}/>
                 <Route path="/tours/:id" component={TourShow}/>
                 <Route path="/tours"  component={TourList}/>
                 <Route path="/cart" component={Cart}/>

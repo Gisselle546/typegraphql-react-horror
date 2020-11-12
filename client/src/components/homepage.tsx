@@ -75,14 +75,19 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const Homepage: React.FC = () => {
+
+interface Props{
+    history:any
+}
+
+const Homepage: React.FC<Props> = ({history}) => {
     const classes = useStyles();
 
 
     return(
         <>
         <div className={classes.root}>
-            <Button  variant="outlined" size="large"className={classes.homepageButton}>Check tours!</Button>
+            <Button  variant="outlined" onClick={()=>history.push('/tours')}size="large"className={classes.homepageButton}>Check tours!</Button>
         </div>
         <div className={classes.section}>
             <div className={classes.subSection}>
@@ -97,7 +102,7 @@ const Homepage: React.FC = () => {
                 Netus et malesuada fames ac. Ultricies mi eget mauris pharetra. Vulputate dignissim suspendisse in est ante in nibh mauris cursus.
                  Magna etiam tempor orci eu. Sapien pellentesque habitant morbi tristique senectus. Velit aliquet sagittis id consectetur purus ut faucibus.
                </p>
-                <Button className={classes.subButton}size="large">Sign Up</Button>
+                <Button onClick={()=>history.push('/signup')}className={classes.subButton}size="large">Sign Up</Button>
             </div>
         </div>
         
