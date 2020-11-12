@@ -172,6 +172,22 @@ export type LoginInput = {
   password: Scalars['String'];
 };
 
+export type CreateOrderMutationVariables = Exact<{
+  quantity: Scalars['Float'];
+  reservation: Scalars['String'];
+  stripeId: Scalars['String'];
+  total: Scalars['Float'];
+}>;
+
+
+export type CreateOrderMutation = (
+  { __typename?: 'Mutation' }
+  & { createOrder: (
+    { __typename?: 'Order' }
+    & Pick<Order, 'id'>
+  ) }
+);
+
 export type ToursQueryVariables = Exact<{
   data: Scalars['String'];
 }>;
@@ -248,6 +264,43 @@ export type RegisterMutation = (
 );
 
 
+export const CreateOrderDocument = gql`
+    mutation createOrder($quantity: Float!, $reservation: String!, $stripeId: String!, $total: Float!) {
+  createOrder(
+    data: {quantity: $quantity, reservation: $reservation, stripeId: $stripeId, total: $total}
+  ) {
+    id
+  }
+}
+    `;
+export type CreateOrderMutationFn = Apollo.MutationFunction<CreateOrderMutation, CreateOrderMutationVariables>;
+
+/**
+ * __useCreateOrderMutation__
+ *
+ * To run a mutation, you first call `useCreateOrderMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateOrderMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createOrderMutation, { data, loading, error }] = useCreateOrderMutation({
+ *   variables: {
+ *      quantity: // value for 'quantity'
+ *      reservation: // value for 'reservation'
+ *      stripeId: // value for 'stripeId'
+ *      total: // value for 'total'
+ *   },
+ * });
+ */
+export function useCreateOrderMutation(baseOptions?: Apollo.MutationHookOptions<CreateOrderMutation, CreateOrderMutationVariables>) {
+        return Apollo.useMutation<CreateOrderMutation, CreateOrderMutationVariables>(CreateOrderDocument, baseOptions);
+      }
+export type CreateOrderMutationHookResult = ReturnType<typeof useCreateOrderMutation>;
+export type CreateOrderMutationResult = Apollo.MutationResult<CreateOrderMutation>;
+export type CreateOrderMutationOptions = Apollo.BaseMutationOptions<CreateOrderMutation, CreateOrderMutationVariables>;
 export const ToursDocument = gql`
     query tours($data: String!) {
   tours(data: $data) {

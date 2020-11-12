@@ -11,6 +11,7 @@ import SignUp from './components/signup';
 import TourList from './components/tourslist';
 import {useStore} from './context/token';
 import TourShow from './components/tourShow';
+import Cart from './components/cart';
 
 
 function App() {
@@ -77,6 +78,7 @@ function App() {
                 <Route path="/signup" component={SignUp}/>
                 <Route path="/tours/:id" component={TourShow}/>
                 <Route path="/tours"  component={TourList}/>
+                <Route path="/cart" component={Cart}/>
                
             </Switch>
             </div>

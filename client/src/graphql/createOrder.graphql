@@ -1,0 +1,6 @@
+mutation createOrder($quantity:Float!,$reservation:String!,$stripeId:String!,$total:Float!){
+    createOrder(data:{quantity:$quantity,reservation:$reservation,stripeId:$stripeId,total:$total}){
+       id
+    
+        }
+    }
