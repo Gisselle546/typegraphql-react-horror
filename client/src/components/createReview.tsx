@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Rating from '@material-ui/lab/Rating';
 import {Button, TextareaAutosize,Grid} from '@material-ui/core'
@@ -49,16 +49,59 @@ interface Routing {
 const CreateReview:React.FC<Routing>=({match,history})=>{
     const classes = useStyles();
     const [value, setValue] = React.useState<number | null>(1);
+    const [textArea,setTextare]=useState('')
     const[createReview] = useCreateReviewMutation();
 
-console.log(match.params.id)
 
 
+function handleChange (event:React.ChangeEvent<HTMLTextAreaElement>) {
+    const{value}=event.target;
+    setTextare(value);
+  }
+
+
+  const handleSubmit = async(event:any) => {
+
+    event.preventDefault();
+    try{
+        await reviewHandler();
+       
+    }catch(err){
+        console.dir(err);
+        
+    }
+  }
+
+  
+
+  async function reviewHandler(){
+    
+
+    let response:any
+    try{
+        response= await createReview({
+            variables:{
+               rating:value!,
+               description:textArea,
+               tourid:parseInt(match.params.id)
+            }
+        })
+        
+    }catch(err){
+       history.push('/signin')
+    }
+   
+    console.log(response);
+   
+}
+
+
+    
 
     return(
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <div className={classes.root}>
+            <form onSubmit={handleSubmit} className={classes.root}>
                 <div className={classes.review}>
                     
                     <Rating
@@ -68,15 +111,16 @@ console.log(match.params.id)
                         setValue(newValue);
                     }}
                     />
-                
-                    <TextareaAutosize style={{width:"100%"}}aria-label="minimum height" rowsMin={7} /> 
                     
-                    <Button className={classes.button} variant="contained" size= "medium">Create Review</Button>
+                    
+                    <TextareaAutosize  onChange={handleChange} style={{width:"100%"}}aria-label="minimum height" rowsMin={7}  /> 
+                    
+                    <Button className={classes.button} type="submit" variant="contained" size= "medium">Create Review</Button>
                 
                 </div>
         
         
-            </div>
+            </form>
          </Grid>
      </Grid>
      
