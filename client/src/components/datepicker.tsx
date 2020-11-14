@@ -1,8 +1,24 @@
 import React, {useState} from "react";
 import Calendar from 'react-calendar';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import 'react-calendar/dist/Calendar.css';
 
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+   
+    root:{
+     marginLeft:"30px"
+    },
 
+
+
+
+   
+   
+    
+  
+ 
+}));
 
 interface Props{
     clicked:()=>void;
@@ -13,7 +29,7 @@ interface Props{
 
 const DatePicker:React.FC<Props>=(props)=>{
     const [value, setValue] = useState(new Date());
-
+    const classes = useStyles();
 
 
     const dateHandler=(nextValue:any)=>{
@@ -23,8 +39,9 @@ const DatePicker:React.FC<Props>=(props)=>{
     }
     
     return (
-      <div>
+      <div style={{display:"flex"}}>
         <Calendar 
+          className={classes.root}
           calendarType="US"
           minDate={new Date(new Date().setDate(new Date().getDate() + 1))}
           onChange={dateHandler}

@@ -1,6 +1,7 @@
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { Button, CircularProgress,Grid, Typography } from '@material-ui/core';
 import React,{lazy,Suspense, useContext, useState} from 'react';
+import Rating from '@material-ui/lab/Rating';
 import { useTourByIdQuery } from '../generated/graphql';
 import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
@@ -75,6 +76,12 @@ interface TodoItemProps {
       '&:hover':{
         backgroundColor:"#fff"
       }
+    },
+
+    review:{
+      display:"flex",
+      marginTop:"50px",
+      marginLeft:"30px"
     }
     
   
@@ -121,7 +128,29 @@ const tourImages = data!.tourByID!.image.map((images:any)=>{
       </div>
     )
   
+});
+
+console.log(data!.tourByID!.reviews)
+
+const totalReviews=data!.tourByID!.reviews.reduce((acc,stars:any,index,array)=>acc+stars.rating,0).toPrecision(2)
+
+const review = data!.tourByID!.reviews.map((review:any)=>{
+  return(
+    <div>
+    <div className={classes.review}>
+        <h3>{review.user.name}</h3>
+        <Rating style={{alignSelf:"center"}}name="read-only" value={review.rating} readOnly />
+       
+    </div>
+    <p style={{marginLeft:"30px"}}>{review.description}</p>
+   </div>
+  )
+
 })
+
+
+
+
 
       
 const confirmhandler=()=>{
@@ -129,9 +158,11 @@ const confirmhandler=()=>{
   showcartModal(true);
  
 }
-console.log(date)  
-
-      const renderLoader=()=><div>loader</div>;
+ 
+   
+  
+      
+   const renderLoader=()=><div>loader</div>;
 
     return(
 
@@ -213,8 +244,14 @@ console.log(date)
 
          <div style={{marginTop:"90px"}}>
          <Typography className={classes.tourShowHeader}component="h3" variant="h3">Reviews</Typography>
+        
           </div> 
-         
+          <div style={{display:"flex"}}>
+          <Typography style={{margin:"1rem 0 0 1rem"}}component="h3" variant="h3" >{totalReviews}</Typography> 
+          <p style={{alignSelf:"flex-end"}}> Avg</p>
+          <Rating size="medium" style={{alignSelf:"center", margin:"0px,0px,50px,30px"}}name="read-only" value={parseFloat(totalReviews)} readOnly />
+          </div>
+            {review}
            </Grid>
       </Grid>
 
