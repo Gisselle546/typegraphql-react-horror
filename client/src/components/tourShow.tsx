@@ -11,7 +11,7 @@ const AddCartModule = lazy(()=>import('./addCartModule'))
 const DatePicker = lazy(()=>import('./datepicker'))
 const Included = lazy(()=>import('./included'))
 
-interface TodoItemProps {
+interface Routing {
     match:any,
     history:any,
    
@@ -49,11 +49,17 @@ interface TodoItemProps {
       flex:"0 1 300px",
       height:"600px",
       justifyContent:"center",
-      alignItems:"flex-start"
+      alignItems:"flex-start",
+      
     },
 
     button:{
       alignSelf:"center",
+      backgroundColor:"#69022f",
+      color:"#fff",
+      '&:hover': {
+        backgroundColor:"#69022f",
+      }
      
     },
     tourShowHeader:{
@@ -88,7 +94,7 @@ interface TodoItemProps {
  
 }));
 
-const TourShow:React.FC<TodoItemProps>=({match,history})=>{
+const TourShow:React.FC<Routing>=({match,history})=>{
     const classes = useStyles();
     const {addCart}=useStore();
     const[cart,showcartModal]= useState(false);
@@ -136,8 +142,9 @@ const totalReviews=data!.tourByID!.reviews.reduce((acc,stars:any,index,array)=>a
 
 const review = data!.tourByID!.reviews.map((review:any)=>{
   return(
-    <div>
+    <div key={review.id}>
     <div className={classes.review}>
+      
         <h3>{review.user.name}</h3>
         <Rating style={{alignSelf:"center"}}name="read-only" value={review.rating} readOnly />
        
@@ -158,10 +165,7 @@ const confirmhandler=()=>{
   showcartModal(true);
  
 }
- 
-   
-  
-      
+     
    const renderLoader=()=><div>loader</div>;
 
     return(
@@ -207,6 +211,8 @@ const confirmhandler=()=>{
               <AddCartModule data={data} clicked={()=>showcartModal(false)}/>
             </Suspense>
           }
+
+          <Button className={classes.button} onClick={()=>history.push(`${match.url}/createreview`) }style={{marginTop:"30px"}} variant="contained" size= "medium">Create a Review</Button>
 
           </div>
 

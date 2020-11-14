@@ -19,7 +19,10 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     closeButton:{
         backgroundColor:"#69022f",
-        color:"#fff"
+        color:"#fff",
+        '&:hover': {
+            backgroundColor:"#69022f",
+          }
     }
 
 }));

@@ -188,6 +188,21 @@ export type CreateOrderMutation = (
   ) }
 );
 
+export type CreateReviewMutationVariables = Exact<{
+  rating: Scalars['Float'];
+  description: Scalars['String'];
+  tourid: Scalars['Int'];
+}>;
+
+
+export type CreateReviewMutation = (
+  { __typename?: 'Mutation' }
+  & { createReview: (
+    { __typename?: 'Review' }
+    & Pick<Review, 'id' | 'rating' | 'description'>
+  ) }
+);
+
 export type ToursQueryVariables = Exact<{
   data: Scalars['String'];
 }>;
@@ -301,6 +316,44 @@ export function useCreateOrderMutation(baseOptions?: Apollo.MutationHookOptions<
 export type CreateOrderMutationHookResult = ReturnType<typeof useCreateOrderMutation>;
 export type CreateOrderMutationResult = Apollo.MutationResult<CreateOrderMutation>;
 export type CreateOrderMutationOptions = Apollo.BaseMutationOptions<CreateOrderMutation, CreateOrderMutationVariables>;
+export const CreateReviewDocument = gql`
+    mutation createReview($rating: Float!, $description: String!, $tourid: Int!) {
+  createReview(
+    data: {rating: $rating, description: $description, tourid: $tourid}
+  ) {
+    id
+    rating
+    description
+  }
+}
+    `;
+export type CreateReviewMutationFn = Apollo.MutationFunction<CreateReviewMutation, CreateReviewMutationVariables>;
+
+/**
+ * __useCreateReviewMutation__
+ *
+ * To run a mutation, you first call `useCreateReviewMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateReviewMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createReviewMutation, { data, loading, error }] = useCreateReviewMutation({
+ *   variables: {
+ *      rating: // value for 'rating'
+ *      description: // value for 'description'
+ *      tourid: // value for 'tourid'
+ *   },
+ * });
+ */
+export function useCreateReviewMutation(baseOptions?: Apollo.MutationHookOptions<CreateReviewMutation, CreateReviewMutationVariables>) {
+        return Apollo.useMutation<CreateReviewMutation, CreateReviewMutationVariables>(CreateReviewDocument, baseOptions);
+      }
+export type CreateReviewMutationHookResult = ReturnType<typeof useCreateReviewMutation>;
+export type CreateReviewMutationResult = Apollo.MutationResult<CreateReviewMutation>;
+export type CreateReviewMutationOptions = Apollo.BaseMutationOptions<CreateReviewMutation, CreateReviewMutationVariables>;
 export const ToursDocument = gql`
     query tours($data: String!) {
   tours(data: $data) {

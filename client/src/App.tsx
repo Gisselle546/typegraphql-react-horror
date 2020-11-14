@@ -13,7 +13,7 @@ import {useStore} from './context/token';
 import TourShow from './components/tourShow';
 import Cart from './components/cart';
 import SignIn from './components/signin';
-
+import CreateReview from './components/createReview';
 
 function App() {
 
@@ -78,6 +78,7 @@ function App() {
                 <Route path="/" exact component={Homepage}/>
                 <Route path="/signup" component={SignUp}/>
                 <Route path="/signin" component={SignIn}/>
+                <Route path="/tours/:id/createreview" component={CreateReview}/>
                 <Route path="/tours/:id" component={TourShow}/>
                 <Route path="/tours"  component={TourList}/>
                 <Route path="/cart" component={Cart}/>

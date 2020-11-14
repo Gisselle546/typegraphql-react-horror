@@ -1,0 +1,7 @@
+mutation createReview($rating:Float!, $description:String!,$tourid:Int!){
+    createReview(data:{rating:$rating,description:$description,tourid:$tourid}){
+        id
+        rating
+        description
+    }
+}
