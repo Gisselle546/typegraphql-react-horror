@@ -1,6 +1,6 @@
 import { Order } from './order';
 import { Review } from './Review';
-import {Entity,PrimaryGeneratedColumn,Column,BaseEntity, OneToMany, OneToOne, JoinColumn} from "typeorm";
+import {Entity,PrimaryGeneratedColumn,Column,BaseEntity, OneToMany} from "typeorm";
 import { Field, Int, ObjectType } from "type-graphql";
 
 
