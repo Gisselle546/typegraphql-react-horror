@@ -4,7 +4,7 @@ import {
     Column,
     BaseEntity,
     ManyToOne,
-    Double, 
+   
    
   } from "typeorm";
   import { Field, Int, ObjectType } from "type-graphql";

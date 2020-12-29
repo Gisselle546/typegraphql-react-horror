@@ -16,7 +16,20 @@ const typeorm_1 = require("typeorm");
 const createSchema_1 = require("./utils/createSchema");
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const main = async () => {
-    await typeorm_1.createConnection();
+    const app = express_1.default();
+    app.use(cors_1.default({ origin: "https://horrorapp.netlify.app/", credentials: true }));
+    app.use(cookie_parser_1.default());
+    await typeorm_1.createConnection({
+        name: "default",
+        type: "postgres",
+        url: process.env.DATABASE_URL,
+        synchronize: true,
+        logging: true,
+        entities: ["dist/entity/**/*.js"],
+        extra: {
+            ssl: process.env.SSL || false,
+        },
+    });
     const schema = await createSchema_1.createSchema();
     const apolloServer = new apollo_server_express_1.ApolloServer({
         schema,
@@ -25,16 +38,7 @@ const main = async () => {
             res
         })
     });
-    const app = express_1.default();
     app.use(cookie_parser_1.default());
-    app.use(cors_1.default({
-        origin: "https://horrorapp.netlify.app/",
-        credentials: true
-    }));
-    const corsOptions = {
-        origin: "https://horrorapp.netlify.app/",
-        credentials: true
-    };
     app.post("/refresh", async (req, res) => {
         const token = req.cookies.dev;
         if (!token) {
@@ -62,7 +66,7 @@ const main = async () => {
         });
         return res.send({ ok: true, accessToken: token_1.accessTokenGenerator(user) });
     });
-    apolloServer.applyMiddleware({ app, cors: corsOptions, path: '/api' });
+    apolloServer.applyMiddleware({ app, path: '/api', cors: false });
     app.listen(port, () => {
         console.log("App started");
     });

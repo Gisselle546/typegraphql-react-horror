@@ -17,8 +17,13 @@ import {createSchema} from './utils/createSchema';
 import cookieParser from "cookie-parser";
 
 
-
 const main = async () => {
+
+  const app = Express();
+  app.use( cors({origin:"https://horrorapp.netlify.app/",credentials:true}) );
+  app.use(cookieParser());
+
+
    await createConnection({
     
     name: "default",
@@ -44,15 +49,11 @@ const main = async () => {
       })
     });
   
-    const app = Express();
+    
 
     app.use(cookieParser());
     
 
-    const corsOptions={
-      origin: "https://horrorapp.netlify.app/",
-      credentials: true
-    }
     
     app.post("/refresh", async (req, res) => {
       const token = req.cookies.dev;
@@ -88,7 +89,7 @@ const main = async () => {
   
 
 
-    apolloServer.applyMiddleware({ app,cors: corsOptions, path:'/api'});
+    apolloServer.applyMiddleware({ app, path:'/api',cors:false});
   
     app.listen(port, () => {
       console.log("App started");
