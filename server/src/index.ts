@@ -3,6 +3,7 @@ require('dotenv').config();
 import "reflect-metadata";
 
 import { verify } from 'jsonwebtoken';
+const port = process.env.PORT || 2000;
 import { User } from './entity/User';
 import { accessTokenGenerator, refreshTokenGenerator } from './utils/token';
 
@@ -81,7 +82,7 @@ const main = async () => {
 
     apolloServer.applyMiddleware({ app,cors: corsOptions, path:'/api'});
   
-    app.listen(process.env.PORT, () => {
+    app.listen(port, () => {
       console.log("App started");
       
     });

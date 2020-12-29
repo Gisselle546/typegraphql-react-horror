@@ -5,9 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "ts-node-dev --respawn src/index.ts ",
-    "client": "cd client && npm start",
-    "concurstart": "concurrently \"npm run dev\" \"npm run client\""
+    "dev": "ts-node-dev --respawn src/index.ts "
+   
   },
   "keywords": [],
   "author": "Gisselle Rodriguez",
