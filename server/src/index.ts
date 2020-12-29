@@ -19,7 +19,19 @@ import cookieParser from "cookie-parser";
 
 
 const main = async () => {
-    await createConnection();
+   await createConnection({
+    
+    name: "default",
+    type: "postgres",
+    url: process.env.DATABASE_URL,
+    synchronize: true,
+    logging: true,
+    entities: ["dist/entity/**/*.js"],
+    extra: {
+      ssl: process.env.SSL || false,
+    },
+    
+    });
   
     const schema = await createSchema();
   
@@ -35,14 +47,10 @@ const main = async () => {
     const app = Express();
 
     app.use(cookieParser());
-    app.use(cors({
-        origin: "http://localhost:3000",
-        credentials: true
-      })
-    );
+    
 
     const corsOptions={
-      origin: "http://localhost:3000",
+      origin: "https://horrorapp.netlify.app/",
       credentials: true
     }
     
