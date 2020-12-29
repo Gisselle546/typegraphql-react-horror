@@ -18,7 +18,7 @@ import CreateReview from './components/createReview';
 function App() {
 
   const httpLink = new HttpLink({
-    uri: 'http://localhost:4000/api',
+    uri: 'https://horrorapp.herokuapp.com/api',
     credentials:'include'
   });
   
