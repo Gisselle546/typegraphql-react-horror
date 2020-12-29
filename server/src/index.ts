@@ -20,7 +20,7 @@ import cookieParser from "cookie-parser";
 const main = async () => {
 
   const app = Express();
-  app.use( cors({origin:"https://horrorapp.netlify.app/",credentials:true}) );
+  app.use( cors({origin:"https://horrorapp.netlify.app",credentials:true}) );
   app.use(cookieParser());
 
 
