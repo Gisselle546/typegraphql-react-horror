@@ -91,6 +91,7 @@ const Homepage: React.FC<Props> = ({history}) => {
         <div className={classes.root}>
             <Button  variant="outlined" onClick={()=>history.push('/tours')}size="large"className={classes.homepageButton}>Check tours!</Button>
         </div>
+        <Grid item xs={12}>
         <div className={classes.section}>
             <div className={classes.subSection}>
                 <Typography className={classes.header}variant="h4">Step into your fears!</Typography>
@@ -107,6 +108,7 @@ const Homepage: React.FC<Props> = ({history}) => {
                 <Button onClick={()=>history.push('/signup')}className={classes.subButton}size="large">Sign Up</Button>
             </div>
         </div>
+        </Grid>
         </Grid>
         </Grid>
        </>
