@@ -87,6 +87,7 @@ const Homepage: React.FC<Props> = ({history}) => {
     return(
         <>
         <Grid container spacing={3}>
+        <Grid item xs={12}>
         <div className={classes.root}>
             <Button  variant="outlined" onClick={()=>history.push('/tours')}size="large"className={classes.homepageButton}>Check tours!</Button>
         </div>
@@ -106,6 +107,7 @@ const Homepage: React.FC<Props> = ({history}) => {
                 <Button onClick={()=>history.push('/signup')}className={classes.subButton}size="large">Sign Up</Button>
             </div>
         </div>
+        </Grid>
         </Grid>
        </>
     )
