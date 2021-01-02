@@ -31,7 +31,9 @@ interface Routing {
 
     tourinfo:{
         display: 'flex',
-        
+        [theme.breakpoints.up('md')]: {
+          width:'500px'
+        }
        
     },
 
