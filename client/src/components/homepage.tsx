@@ -39,12 +39,20 @@ const useStyles = makeStyles((theme: Theme) =>
         display:"flex"
     },
     subSection:{
-        height:"48rem", 
+       
         color:"blue", 
         backgroundColor:"#f6feff",
-        padding:"1rem",
+       
         boxShadow: "7px 7px 5px -4px rgba(0,0,0,0.59)",
-        flex:"0 1 40%"
+        
+        [theme.breakpoints.up('md')]: {
+            height:"48rem", 
+            color:"blue", 
+            backgroundColor:"#f6feff",
+            padding:"1rem",
+            boxShadow: "7px 7px 5px -4px rgba(0,0,0,0.59)",
+            flex:"0 1 40%"
+          }
     },
 
     reading:{
