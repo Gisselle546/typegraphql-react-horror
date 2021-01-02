@@ -15,14 +15,20 @@ const useStyles = makeStyles((theme: Theme) =>
  
     homepageButton:{
        color:"#000",
-       marginLeft:"20rem",
+       
        fontSize:"1.2rem",
        backgroundColor:"#fff",
-       padding:"1rem",
+      
        "&:hover":{
            backgroundColor:"#fff",
            border:"5px solid #fff",
        },
+       [theme.breakpoints.up('md')]: {
+        marginLeft:"20rem",
+        fontSize:"1.2rem",
+        padding:"1rem"
+      }
+
     },
     header:{
         color:"#000",
@@ -42,7 +48,7 @@ const useStyles = makeStyles((theme: Theme) =>
        
         color:"blue", 
         backgroundColor:"#f6feff",
-       
+        flex:"0 1 40%",
         boxShadow: "7px 7px 5px -4px rgba(0,0,0,0.59)",
         
         [theme.breakpoints.up('md')]: {
