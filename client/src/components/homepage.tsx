@@ -48,7 +48,6 @@ const useStyles = makeStyles((theme: Theme) =>
        
         color:"blue", 
         backgroundColor:"#f6feff",
-        flex:"0 1 40%",
         boxShadow: "7px 7px 5px -4px rgba(0,0,0,0.59)",
         
         [theme.breakpoints.up('md')]: {
