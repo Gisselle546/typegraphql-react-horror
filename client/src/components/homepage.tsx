@@ -85,7 +85,7 @@ const Homepage: React.FC<Props> = ({history}) => {
 
 
     return(
-        <>
+        <div>
         <Grid container spacing={3}>
         <Grid item xs={12}>
         <div className={classes.root}>
@@ -111,7 +111,7 @@ const Homepage: React.FC<Props> = ({history}) => {
         </Grid>
         </Grid>
         </Grid>
-       </>
+       </div>
     )
 
 }
