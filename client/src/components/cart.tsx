@@ -124,13 +124,13 @@ const Cart:React.FC=()=>{
            
            return(
                <Grid container spacing={2}>
-                   <Grid item xs={4}>
+                   <Grid item xs={6} md={4}>
                
                     <Typography style={{marginTop:"2.4rem", marginLeft:"3rem"}}component="h5" variant="h5">{item.name}</Typography>
                     <img className={classes.imagePlaceholder} src={item.image[0]}/>
                    </Grid>
 
-                   <Grid item xs={4}>
+                   <Grid item xs={6} md={4}>
                     <div className={classes.price}>
                         <p className={classes.paragraph}>${item.price}<span style={{fontSize:"15px", color:"red"}}>x</span>{item.quantity}</p>
                         <Button variant="contained" size="large" onClick={()=>remove(item)}className={classes.deleteButton}>Delete</Button>
@@ -139,7 +139,7 @@ const Cart:React.FC=()=>{
                   
                     
                    </Grid>
-                   <Grid item xs={4}>
+                   <Grid item xs={12} md={4}>
                         <div className={classes.total}>
                             <h1 style={{alignSelf:"flex-end"}}>${item.total}</h1>
                         </div>
