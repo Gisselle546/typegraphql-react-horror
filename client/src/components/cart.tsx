@@ -44,8 +44,12 @@ const useStyles = makeStyles((theme: Theme) =>
     color:"#f6ffff"
  },
     price:{
-        marginTop:"11.5rem",
-        marginLeft:"1rem"
+       
+        [theme.breakpoints.up('md')]: {
+            marginTop:"11.5rem",
+            marginLeft:"1rem",
+        }
+
     },
 
     total:{
